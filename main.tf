@@ -18,7 +18,7 @@ resource "aws_instance" "web" {
     # Security Group
     vpc_security_group_ids = ["${aws_security_group.ssh-allowed.id}"]
     # the Public SSH key
-    key_name = module.web1_key.key_name
+    key_name = module.web_key.key_name
    
 }
 resource "null_resource" "example_provisioner" {
@@ -36,8 +36,8 @@ resource "null_resource" "example_provisioner" {
     connection {
         type        = "ssh"
         user        = "ubuntu"
-        private_key = file(module.web1_key.private_key_filename)
-        host        = aws_instance.web1.public_dns
+        private_key = file(module.web_key.private_key_filename)
+        host        = aws_instance.web.public_dns
     }
-    depends_on = [aws_instance.web1]
+    depends_on = [aws_instance.web]
 }
